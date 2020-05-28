@@ -1,8 +1,11 @@
 package com.example.bake.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Parcelable {
     int id;
     String name;
     List<Step> steps;
@@ -49,5 +52,36 @@ public class Recipe {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeStringList(ingredients);
+        parcel.writeList(steps);
+    }
+
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>(){
+
+        @Override
+        public Recipe createFromParcel(Parcel parcel) {
+            return new Recipe(parcel);
+        }
+
+        @Override
+        public Recipe[] newArray(int i) {
+            return new Recipe[i];
+        }
+    };
+
+    private Recipe(Parcel in){
+        id = in.readInt();
+        name = in.readString();
+        in.readStringList(ingredients);
+        in.readList(steps, Step.class.getClassLoader());
+    }
 }

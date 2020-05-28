@@ -1,6 +1,9 @@
 package com.example.bake.objects;
 
-public class Step {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Step implements Parcelable {
     int id;
     String shortDescription;
     String description;
@@ -56,5 +59,37 @@ public class Step {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(shortDescription);
+        parcel.writeString(description);
+        parcel.writeString(videoUrl);
+        parcel.writeString(imageUrl);
+    }
+
+    public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>(){
+        @Override
+        public Step createFromParcel(Parcel parcel) {
+            return new Step(parcel);
+        }
+
+        @Override
+        public Step[] newArray(int i) {
+            return new Step[i];
+        }
+    };
+
+    private Step(Parcel in){
+        id = in.readInt();
+        shortDescription = in.readString();
+        description = in.readString();
+        videoUrl = in.readString();
+        imageUrl = in.readString();
+    }
 }
