@@ -6,18 +6,13 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.bake.json.JSONUtils;
 import com.example.bake.objects.Recipe;
-
-import org.json.JSONArray;
 
 import java.util.List;
 
@@ -37,7 +32,7 @@ public class RecipeListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
-    public static List<Recipe> mRecipes;
+    public LiveData<List<Recipe>> mRecipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,34 +52,53 @@ public class RecipeListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        setRecipes();
+        setUpViewModel();
 
 
     }
 
-    private void setRecipes(){
-        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-        JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+    private void setUpViewModel(){
+        RecipeViewModel viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
+//        RecipeViewModel viewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+        viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
             @Override
-            public void onResponse(JSONArray response) {
-                mRecipes = JSONUtils.parseJSON(response, RecipeListActivity.this);
-
+            public void onChanged(List<Recipe> recipes) {
                 View recyclerView = findViewById(R.id.recipe_list);
                 assert recyclerView != null;
-                setupRecyclerView((RecyclerView) recyclerView);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                setupRecyclerView((RecyclerView) recyclerView, recipes);
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new RecipeAdapter(this, mRecipes, mTwoPane));
+//    private void setRecipes(){
+//        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+//        JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                mRecipes = JSONUtils.parseJSON(response, RecipeListActivity.this);
+//
+//                mRecipes.observe(RecipeListActivity.this, new Observer<List<Recipe>>() {
+//                    @Override
+//                    public void onChanged(List<Recipe> recipes) {
+//                        View recyclerView = findViewById(R.id.recipe_list);
+//                        assert recyclerView != null;
+//                        setupRecyclerView((RecyclerView) recyclerView, recipes);
+//                    }
+//                });
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                error.printStackTrace();
+//            }
+//        });
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(request);
+//    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView, List<Recipe> recipes) {
+        recyclerView.setAdapter(new RecipeAdapter(this, recipes, mTwoPane));
         //TODO: adjust spancount
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);

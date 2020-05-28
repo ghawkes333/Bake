@@ -15,19 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bake.objects.Recipe;
 import com.example.bake.objects.Step;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     private static final String TAG = StepAdapter.class.getSimpleName();
     private final StepListActivity mParentActivity;
     private final boolean mTwoPane;
-    private List<Step> mSteps = new ArrayList<>();
+    private List<Step> mSteps;
 
-    public StepAdapter(StepListActivity mParentActivity, boolean mTwoPane) {
-        this.mParentActivity = mParentActivity;
-        this.mTwoPane = mTwoPane;
-        mSteps.add(new Step(0, "Success", "Success", "Success", "Success"));
+    public StepAdapter(StepListActivity parentActivity, boolean twoPane, List<Step> steps) {
+        this.mParentActivity = parentActivity;
+        this.mTwoPane = twoPane;
+        this.mSteps = steps;
     }
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {

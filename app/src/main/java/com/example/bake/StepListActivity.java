@@ -8,18 +8,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.bake.json.JSONUtils;
-import com.example.bake.objects.Recipe;
-
-import org.json.JSONArray;
-
-import java.util.List;
-
 /**
  * An activity representing a single Recipe detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
@@ -28,7 +16,6 @@ import java.util.List;
  */
 public class StepListActivity extends AppCompatActivity {
 
-    public static List<Recipe> mRecipes = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,23 +57,6 @@ public class StepListActivity extends AppCompatActivity {
 
     }
 
-    private void setRecipes(){
-        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-        JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                mRecipes = JSONUtils.parseJSON(response, StepListActivity.this);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -103,7 +73,4 @@ public class StepListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static List<Recipe> getRecipes() {
-        return mRecipes;
-    }
 }

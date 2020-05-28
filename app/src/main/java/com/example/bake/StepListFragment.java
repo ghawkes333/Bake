@@ -7,10 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bake.objects.Recipe;
+import com.example.bake.objects.Step;
+
+import java.util.List;
 
 /**
  * A fragment representing a single Recipe detail screen.
@@ -24,10 +29,13 @@ public class StepListFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    private int mIndex;
 
-    private Recipe mRecipe;
+    private List<Recipe> mRecipes;
 
     private boolean mTwoPane;
+
+    private List<Step> mSteps;
 
     /**
      * The dummy content this fragment is presenting.
@@ -45,6 +53,7 @@ public class StepListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
@@ -52,6 +61,7 @@ public class StepListFragment extends Fragment {
 //            mItem = Recipe.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity =  this.getActivity();
+            mIndex = getArguments().getInt(ARG_ITEM_ID);
 
 //            Toolbar appBarLayout = activity.findViewById(R.id.step_list_toolbar);
 
@@ -59,6 +69,8 @@ public class StepListFragment extends Fragment {
 //            if (appBarLayout != null && mRecipe != null && mRecipe.getName() != null) {
 //                appBarLayout.setTitle(mRecipe.getName());
 //            }
+
+
         }
     }
 
@@ -68,12 +80,24 @@ public class StepListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.step_list_frag, container, false);
         RecyclerView stepRecyclerView = rootView.findViewById(R.id.step_list_recyclerview);
 
-        //TODO: put in mTwoPane
-        StepAdapter stepAdapter = new StepAdapter((StepListActivity) this.getActivity(), false);
 
-        stepRecyclerView.setHasFixedSize(true);
-        stepRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity().getApplicationContext()));
-        stepRecyclerView.setAdapter(stepAdapter);
+        RecipeViewModel viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
+            @Override
+            public void onChanged(List<Recipe> recipes) {
+                //TODO add index
+                List<Step> steps = recipes.get(mIndex).getSteps();
+
+                //TODO: put in mTwoPane
+                StepAdapter stepAdapter = new StepAdapter((StepListActivity) StepListFragment.this.getActivity(), false, steps);
+
+                stepRecyclerView.setHasFixedSize(true);
+                stepRecyclerView.setLayoutManager(new LinearLayoutManager(StepListFragment.this.getActivity().getApplicationContext()));
+                stepRecyclerView.setAdapter(stepAdapter);
+            }
+        });
+
+
 
 //        StepAdapter stepAdapter = new StepAdapter(this.getActivity(), false);
         // Show the dummy content as text in a TextView.
