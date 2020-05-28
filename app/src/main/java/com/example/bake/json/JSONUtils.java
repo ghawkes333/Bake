@@ -1,6 +1,7 @@
 package com.example.bake.json;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.bake.R;
 import com.example.bake.objects.Recipe;
@@ -24,6 +25,7 @@ public class JSONUtils {
                 String name = recipeJSON.getString(RecipeValues.RESPONSE_META_NAME);
                 List<String> ingredients = parseIngredients(recipeJSON.getJSONArray(RecipeValues.RESPONSE_META_INGREDIENTS), context);
                 List<Step> steps = parseSteps(recipeJSON.getJSONArray(RecipeValues.RESPONSE_META_STEPS));
+                Log.d("JSONUtils", id + name + ingredients + steps.get(0));
                 Recipe recipe = new Recipe(id, name, steps, ingredients);
                 recipes.add(recipe);
             }
