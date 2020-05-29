@@ -85,7 +85,6 @@ public class StepListFragment extends Fragment {
         viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> recipes) {
-                //TODO add index
                 List<Step> steps = recipes.get(mIndex).getSteps();
 
                 //TODO: put in mTwoPane

@@ -47,13 +47,13 @@ public class StepDetailFragment extends Fragment {
     private int mStepIndex = -1;
 
     private List<Recipe> mRecipes;
-
     private boolean mTwoPane;
-
     private List<Step> mSteps;
 
     private String TAG = StepDetailFragment.class.getSimpleName();
     private Context mContext;
+
+    private SimpleExoPlayer mPlayer;
 
     /**
      * The dummy content this fragment is presenting.
@@ -122,15 +122,27 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void playVideo(PlayerView playerView, String videoUrl){
-        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(mContext);
-        playerView.setPlayer(player);
+        mPlayer = ExoPlayerFactory.newSimpleInstance(mContext);
+        playerView.setPlayer(mPlayer);
 
         Uri uri = Uri.parse(videoUrl);
 
         String userAgent = Util.getUserAgent(mContext, getString(R.string.app_name));
         MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(mContext, userAgent), new DefaultExtractorsFactory(), null, null);
 
-        player.prepare(mediaSource);
-        player.setPlayWhenReady(true);
+        mPlayer.prepare(mediaSource);
+        mPlayer.setPlayWhenReady(true);
+    }
+
+    private void releaseMedia(){
+        mPlayer.stop();
+        mPlayer.release();
+        mPlayer = null;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releaseMedia();
     }
 }
