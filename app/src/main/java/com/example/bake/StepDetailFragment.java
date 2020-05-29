@@ -2,6 +2,7 @@ package com.example.bake;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bake.objects.Recipe;
 import com.example.bake.objects.Step;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 
 import java.security.InvalidParameterException;
@@ -79,6 +88,11 @@ public class StepDetailFragment extends Fragment {
         TextView descriptionTextView = rootView.findViewById(R.id.description_tv);
 
 
+        if(mStepIndex == -1 || mRecipeIndex == -1){
+            Log.e(TAG, "Step index is " + mStepIndex + ". Recipe index is " + mRecipeIndex + ". Will not get recipes");
+            return rootView;
+        }
+
         RecipeViewModel viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
         viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
             @Override
@@ -88,7 +102,10 @@ public class StepDetailFragment extends Fragment {
 
                 if(!step.getVideoUrl().isEmpty()){
                     //Show the video
+                    PlayerView playerView = rootView.findViewById(R.id.video_view);
+                    playerView.setVisibility(View.VISIBLE);
 
+                    playVideo(playerView, step.getVideoUrl());
                 } else if(!step.getImageUrl().isEmpty()){
                     //Show the image
                     ImageView imageView = rootView.findViewById(R.id.step_detail_iv);
@@ -102,5 +119,18 @@ public class StepDetailFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void playVideo(PlayerView playerView, String videoUrl){
+        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(mContext);
+        playerView.setPlayer(player);
+
+        Uri uri = Uri.parse(videoUrl);
+
+        String userAgent = Util.getUserAgent(mContext, getString(R.string.app_name));
+        MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(mContext, userAgent), new DefaultExtractorsFactory(), null, null);
+
+        player.prepare(mediaSource);
+        player.setPlayWhenReady(true);
     }
 }
