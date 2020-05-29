@@ -33,6 +33,16 @@
                 android:value="com.example.bake.RecipeListActivity" />
         </activity>
 
+        <activity
+            android:name=".StepDetailActivity"
+            android:label="@string/title_detail_step"
+            android:parentActivityName=".RecipeListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bake.StepListActivity" />
+        </activity>
+
     </application>
 
 </manifest>

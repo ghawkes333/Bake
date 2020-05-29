@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bake.objects.Recipe;
 import com.example.bake.objects.Step;
 
 import java.util.List;
@@ -22,30 +21,37 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     private final StepListActivity mParentActivity;
     private final boolean mTwoPane;
     private List<Step> mSteps;
+    private int recipeId;
 
-    public StepAdapter(StepListActivity parentActivity, boolean twoPane, List<Step> steps) {
+
+    public StepAdapter(StepListActivity parentActivity, boolean twoPane, List<Step> steps, int recipeId) {
         this.mParentActivity = parentActivity;
         this.mTwoPane = twoPane;
         this.mSteps = steps;
+        this.recipeId = recipeId;
     }
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Log.d("StepAdapter", "Click!");
-            Recipe item = (Recipe) view.getTag();
+            Step step = (Step) view.getTag();
+
             if (mTwoPane) {
                 Bundle arguments = new Bundle();
-                arguments.putInt(StepListFragment.ARG_ITEM_ID, item.getId());
-                StepListFragment fragment = new StepListFragment();
+                arguments.putInt(StepDetailFragment.ARG_STEP_INDEX, step.getId());
+                arguments.putInt(StepDetailFragment.ARG_RECIPE_INDEX, recipeId);
+//                arguments.putInt(StepDetailFragment.ARG_STEP_INDEX, view.getTag());
+                StepDetailFragment fragment = new StepDetailFragment();
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.step_detail_container, fragment)
                         .commit();
             } else {
                 Context context = view.getContext();
-                Intent intent = new Intent(context, StepListActivity.class);
-                intent.putExtra(StepListFragment.ARG_ITEM_ID, item.getId());
+                Intent intent = new Intent(context, StepDetailActivity.class);
+                intent.putExtra(StepDetailFragment.ARG_STEP_INDEX, step.getId());
+                intent.putExtra(StepDetailFragment.ARG_RECIPE_INDEX, recipeId);
 
                 context.startActivity(intent);
             }
@@ -64,6 +70,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         Log.d(TAG, "onBindViewHolder");
         holder.mTextView.setText(mSteps.get(position).getShortDescription());
         holder.mTextView.setOnClickListener(mOnClickListener);
+        holder.mTextView.setTag(mSteps.get(position));
     }
 
     @Override
