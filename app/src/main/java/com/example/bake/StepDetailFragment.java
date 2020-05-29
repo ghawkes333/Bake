@@ -1,11 +1,13 @@
 package com.example.bake;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bake.objects.Recipe;
 import com.example.bake.objects.Step;
+import com.squareup.picasso.Picasso;
 
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -41,6 +44,7 @@ public class StepDetailFragment extends Fragment {
     private List<Step> mSteps;
 
     private String TAG = StepDetailFragment.class.getSimpleName();
+    private Context mContext;
 
     /**
      * The dummy content this fragment is presenting.
@@ -58,6 +62,7 @@ public class StepDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Activity activity =  this.getActivity();
+        mContext = activity.getApplicationContext();
 
 
         if (getArguments().containsKey(ARG_RECIPE_INDEX) && getArguments().containsKey(ARG_STEP_INDEX)) {
@@ -80,21 +85,21 @@ public class StepDetailFragment extends Fragment {
             public void onChanged(List<Recipe> recipes) {
                 Step step = recipes.get(mRecipeIndex).getSteps().get(mStepIndex);
                 descriptionTextView.setText(step.getDescription());
+
+                if(!step.getVideoUrl().isEmpty()){
+                    //Show the video
+
+                } else if(!step.getImageUrl().isEmpty()){
+                    //Show the image
+                    ImageView imageView = rootView.findViewById(R.id.step_detail_iv);
+                    imageView.setVisibility(View.VISIBLE);
+                    Picasso.get().load(step.getImageUrl());
+                }
                 Log.d(TAG, String.valueOf(mRecipeIndex));
                 Log.d(TAG,  String.valueOf(mStepIndex));
-//                List<Step> stepList = recipes.get(mRecipeIndex).getSteps();
-//                Step step = stepList.get(mStepIndex);
-//                descriptionTextView.setText(step.getDescription());
+
             }
         });
-
-
-
-//        StepAdapter stepAdapter = new StepAdapter(this.getActivity(), false);
-        // Show the dummy content as text in a TextView.
-//        if (mItem != null) {
-//            ((TextView) rootView.findViewById(R.id.step_list_frag)).setText(mItem.details);
-//        }
 
         return rootView;
     }

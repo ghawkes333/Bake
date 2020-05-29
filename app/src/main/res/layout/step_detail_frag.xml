@@ -6,12 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:layout_margin="@dimen/text_margin"
+        android:id="@+id/step_detail_iv"
+        android:visibility="gone"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:layout_margin="@dimen/text_margin"
-        android:id="@+id/step_detail_media_container"/>
+        android:id="@+id/step_detail_media_container"
+        android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="match_parent"
