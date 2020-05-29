@@ -1,7 +1,11 @@
 package com.example.bake;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +37,8 @@ public class RecipeListActivity extends AppCompatActivity {
     private boolean mTwoPane;
 
     public LiveData<List<Recipe>> mRecipes;
+
+    public static Recipe mCurrentRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 View recyclerView = findViewById(R.id.recipe_list);
                 assert recyclerView != null;
                 setupRecyclerView((RecyclerView) recyclerView, recipes);
+
             }
         });
     }
@@ -105,4 +112,35 @@ public class RecipeListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateWidget(this, mCurrentRecipe);
+    }
+
+    private void updateWidget(Context context, Recipe recipe){
+        if(recipe == null) return;
+        List<String> ingredients = recipe.getIngredients();
+        String ingredientsString = stringListToString(ingredients);
+
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        int[] ids = manager.getAppWidgetIds(new ComponentName(context.getPackageName(), RecipeAppWidgetProvider.class.getName()));
+        for(int id : ids){
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_appwidget);
+            views.setTextViewText(R.id.widget_tv, ingredientsString);
+            manager.updateAppWidget(id, views);
+        }
+
+
+    }
+
+    private String stringListToString(List<String> strings){
+        StringBuilder string = new StringBuilder();
+        for(int i = 0; i < strings.size(); i++){
+            string.append(getResources().getString(R.string.new_line));
+            string.append(strings.get(i));
+        }
+
+        return string.toString();
+    }
 }

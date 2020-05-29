@@ -25,6 +25,8 @@ public class RecipeAdapter
         @Override
         public void onClick(View view) {
             Recipe item = (Recipe) view.getTag();
+            setCurrentRecipe(item);
+
             if (mTwoPane) {
                 Bundle arguments = new Bundle();
                 arguments.putInt(StepListFragment.ARG_ITEM_ID, item.getId());
@@ -81,5 +83,9 @@ public class RecipeAdapter
             mIdView = (TextView) view.findViewById(R.id.id_text);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
+    }
+
+    private void setCurrentRecipe(Recipe recipe){
+        RecipeListActivity.mCurrentRecipe = recipe;
     }
 }
