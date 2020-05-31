@@ -39,7 +39,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
             if (mTwoPane) {
                 Bundle arguments = new Bundle();
-                arguments.putInt(StepDetailFragment.ARG_STEP_INDEX, step.getId());
+                arguments.putInt(StepDetailFragment.ARG_STEP_INDEX, step.getIndex());
                 arguments.putInt(StepDetailFragment.ARG_RECIPE_INDEX, recipeId);
 //                arguments.putInt(StepDetailFragment.ARG_STEP_INDEX, view.getTag());
                 StepDetailFragment fragment = new StepDetailFragment();
@@ -50,7 +50,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
             } else {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, StepDetailActivity.class);
-                intent.putExtra(StepDetailFragment.ARG_STEP_INDEX, step.getId());
+                intent.putExtra(StepDetailFragment.ARG_STEP_INDEX, step.getIndex());
                 intent.putExtra(StepDetailFragment.ARG_RECIPE_INDEX, recipeId);
 
                 context.startActivity(intent);
