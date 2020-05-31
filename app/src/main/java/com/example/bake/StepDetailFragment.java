@@ -135,9 +135,11 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void releaseMedia(){
-        mPlayer.stop();
-        mPlayer.release();
-        mPlayer = null;
+        if(mPlayer != null){
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+        }
     }
 
     @Override

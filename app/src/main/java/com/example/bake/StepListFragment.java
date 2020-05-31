@@ -78,7 +78,7 @@ public class StepListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.step_list_frag, container, false);
-        RecyclerView stepRecyclerView = rootView.findViewById(R.id.step_list_recyclerview);
+        RecyclerView stepRecyclerView = rootView.findViewById(R.id.step_list_frag_recyclerview);
 
 
         RecipeViewModel viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);

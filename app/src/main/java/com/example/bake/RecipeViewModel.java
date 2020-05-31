@@ -3,6 +3,7 @@ package com.example.bake;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bake.IdlingResource.SimpleIdlingResource;
 import com.example.bake.json.JSONUtils;
 import com.example.bake.objects.Recipe;
 
@@ -21,6 +23,9 @@ import java.util.List;
 
 public class RecipeViewModel extends AndroidViewModel {
     private MutableLiveData<List<Recipe>> mRecipes;
+
+    @VisibleForTesting
+    private static SimpleIdlingResource mIdlingResource;
 
     public RecipeViewModel(Application application) {
         super(application);
@@ -32,6 +37,11 @@ public class RecipeViewModel extends AndroidViewModel {
     }
 
     private void setRecipes(final Context context){
+        //Pause testing
+        if(mIdlingResource != null){
+            mIdlingResource.setIdleState(false);
+        }
+
         //Set Recipes to dummy data for now
         mRecipes = new MutableLiveData<>();
 
@@ -40,6 +50,11 @@ public class RecipeViewModel extends AndroidViewModel {
             @Override
             public void onResponse(JSONArray response) {
                 mRecipes.setValue(JSONUtils.parseJSON(response, context));
+
+                //Continue testing
+                if(mIdlingResource != null) {
+                    mIdlingResource.setIdleState(true);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -49,5 +64,13 @@ public class RecipeViewModel extends AndroidViewModel {
         });
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(request);
+    }
+
+    void setIdlingResource(SimpleIdlingResource resource){
+        mIdlingResource = resource;
+    }
+
+    public static SimpleIdlingResource getIdlingResource(){
+        return mIdlingResource;
     }
 }

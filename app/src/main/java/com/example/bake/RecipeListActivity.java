@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bake.IdlingResource.SimpleIdlingResource;
 import com.example.bake.objects.Recipe;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
     public static Recipe mCurrentRecipe;
 
+    private SimpleIdlingResource mIdlingResource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +61,21 @@ public class RecipeListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        setUpViewModel();
+
 
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpViewModel();
+    }
+
     private void setUpViewModel(){
+        mIdlingResource = new SimpleIdlingResource();
         RecipeViewModel viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
-//        RecipeViewModel viewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+        viewModel.setIdlingResource(mIdlingResource);
         viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> recipes) {
@@ -142,5 +152,9 @@ public class RecipeListActivity extends AppCompatActivity {
         }
 
         return string.toString();
+    }
+
+    public SimpleIdlingResource getIdlingResource(){
+        return mIdlingResource;
     }
 }
