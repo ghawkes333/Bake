@@ -29,7 +29,7 @@ public class RecipeAdapter
 
             if (mTwoPane) {
                 Bundle arguments = new Bundle();
-                arguments.putInt(StepListFragment.ARG_ITEM_ID, item.getId());
+                arguments.putInt(StepListFragment.ARG_ITEM_ID, item.getIndex());
                 StepListFragment fragment = new StepListFragment();
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -38,7 +38,7 @@ public class RecipeAdapter
             } else {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, StepListActivity.class);
-                intent.putExtra(StepListFragment.ARG_ITEM_ID, item.getId());
+                intent.putExtra(StepListFragment.ARG_ITEM_ID, item.getIndex());
 
                 context.startActivity(intent);
             }
@@ -62,7 +62,7 @@ public class RecipeAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mIdView.setText(String.valueOf(mRecipes.get(position).getId()));
+        holder.mIdView.setText(String.valueOf(mRecipes.get(position).getIndex()));
         holder.mContentView.setText(mRecipes.get(position).getName());
 
         holder.itemView.setTag(mRecipes.get(position));

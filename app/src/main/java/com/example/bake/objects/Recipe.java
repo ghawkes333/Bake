@@ -6,25 +6,28 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class Recipe implements Parcelable {
-    int id;
+    int index;
     String name;
     List<Step> steps;
     List<String> ingredients;
 
-    public Recipe(int id, String name, List<Step> steps, List<String> ingredients) {
-        this.id = id;
+    public Recipe(int index, String name, List<Step> steps, List<String> ingredients) {
+        this.index = index;
         this.name = name;
         this.steps = steps;
         this.ingredients = ingredients;
     }
 
 
-    public int getId() {
-        return id;
+    private Recipe(Parcel in){
+        index = in.readInt();
+        name = in.readString();
+        in.readStringList(ingredients);
+        in.readList(steps, Step.class.getClassLoader());
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getIndex() {
+        return index;
     }
 
     public String getName() {
@@ -57,12 +60,8 @@ public class Recipe implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(name);
-        parcel.writeStringList(ingredients);
-        parcel.writeList(steps);
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>(){
@@ -78,10 +77,11 @@ public class Recipe implements Parcelable {
         }
     };
 
-    private Recipe(Parcel in){
-        id = in.readInt();
-        name = in.readString();
-        in.readStringList(ingredients);
-        in.readList(steps, Step.class.getClassLoader());
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(index);
+        parcel.writeString(name);
+        parcel.writeStringList(ingredients);
+        parcel.writeList(steps);
     }
 }

@@ -19,14 +19,13 @@ public class JSONUtils {
     public static List<Recipe> parseJSON(JSONArray array, Context context){
         List<Recipe> recipes = new ArrayList<>();
         try {
-            for(int i = 0; i < array.length(); i++){
-                JSONObject recipeJSON = array.getJSONObject(i);
-                int id = recipeJSON.getInt(RecipeValues.RESPONSE_META_ID);
+            for(int index = 0; index < array.length(); index++){
+                JSONObject recipeJSON = array.getJSONObject(index);
                 String name = recipeJSON.getString(RecipeValues.RESPONSE_META_NAME);
                 List<String> ingredients = parseIngredients(recipeJSON.getJSONArray(RecipeValues.RESPONSE_META_INGREDIENTS), context);
                 List<Step> steps = parseSteps(recipeJSON.getJSONArray(RecipeValues.RESPONSE_META_STEPS));
-                Log.d("JSONUtils", id + name + ingredients + steps.get(0));
-                Recipe recipe = new Recipe(id, name, steps, ingredients);
+                Log.d("JSONUtils", index + name + ingredients + steps.get(0));
+                Recipe recipe = new Recipe(index, name, steps, ingredients);
                 recipes.add(recipe);
             }
         } catch (JSONException e){
