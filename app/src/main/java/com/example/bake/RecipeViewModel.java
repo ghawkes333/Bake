@@ -15,6 +15,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bake.IdlingResource.SimpleIdlingResource;
 import com.example.bake.json.JSONUtils;
+import com.example.bake.json.RecipeValues;
 import com.example.bake.objects.Recipe;
 
 import org.json.JSONArray;
@@ -45,7 +46,7 @@ public class RecipeViewModel extends AndroidViewModel {
         //Set Recipes to dummy data for now
         mRecipes = new MutableLiveData<>();
 
-        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+        String url = RecipeValues.RECIPE_NETWORK_URL;
         final JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

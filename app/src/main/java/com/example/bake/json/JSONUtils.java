@@ -24,7 +24,6 @@ public class JSONUtils {
                 String name = recipeJSON.getString(RecipeValues.RESPONSE_META_NAME);
                 List<String> ingredients = parseIngredients(recipeJSON.getJSONArray(RecipeValues.RESPONSE_META_INGREDIENTS), context);
                 List<Step> steps = parseSteps(recipeJSON.getJSONArray(RecipeValues.RESPONSE_META_STEPS));
-                Log.d("JSONUtils", index + name + ingredients + steps.get(0));
                 Recipe recipe = new Recipe(index, name, steps, ingredients);
                 recipes.add(recipe);
             }

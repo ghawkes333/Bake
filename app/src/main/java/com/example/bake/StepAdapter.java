@@ -34,7 +34,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d("StepAdapter", "Click!");
             Step step = (Step) view.getTag();
 
             if (mTwoPane) {
@@ -67,7 +66,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull StepAdapter.ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder");
         holder.mTextView.setText(mSteps.get(position).getShortDescription());
         holder.mTextView.setOnClickListener(mOnClickListener);
         holder.mTextView.setTag(mSteps.get(position));

@@ -45,6 +45,7 @@ import static org.hamcrest.Matchers.not;
 public class RecipeInstrumentedTest {
     private SimpleIdlingResource mIdlingResource;
     private int numSteps = 0;
+    private static final String TAG = RecipeInstrumentedTest.class.getSimpleName();
 
 
     @Before
@@ -82,12 +83,12 @@ public class RecipeInstrumentedTest {
             ViewInteraction stepRecyclerView = onView(withId(R.id.step_list_frag_recyclerview));
 
 
-            stepRecyclerView.check(matches(hasNumChildren()));
+            stepRecyclerView.check(matches(hasNumChildren(appContext)));
 
             //Loop through each step
             for (int stepListPosition = 0; stepListPosition < numSteps; stepListPosition++) {
                 try {
-                    Log.d("RecipeInstrumentedTest", "Attempting recipe index " + recipeListPosition + " and step index " + stepListPosition);
+                    Log.d(TAG, "Attempting recipe index " + recipeListPosition + " and step index " + stepListPosition);
 
                     //Click on the correct step
                     stepRecyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(stepListPosition, click()));
@@ -101,7 +102,7 @@ public class RecipeInstrumentedTest {
                     //Go back to the steps fragment
                     pressBack();
                 } catch (Error e){
-                    Log.e("RecipeInstrumentedTest","FAILED: recipe index " + recipeListPosition + " and step index " + stepListPosition );
+                    Log.e(TAG,"FAILED: recipe index " + recipeListPosition + " and step index " + stepListPosition );
                     e.printStackTrace();
                     pressBack();
                 }
@@ -120,7 +121,7 @@ public class RecipeInstrumentedTest {
         }
     }
 
-    public Matcher<View> hasNumChildren(){
+    public Matcher<View> hasNumChildren(Context context){
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
 
             @Override
@@ -133,7 +134,7 @@ public class RecipeInstrumentedTest {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("matches number of children in steps recyclerview");
+                description.appendText(context.getString(R.string.matcher_description));
             }
 
         };
