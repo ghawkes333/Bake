@@ -71,8 +71,6 @@ public class RecipeInstrumentedTest {
 
         ActivityScenario.launch(RecipeListActivity.class);
 
-        String emptyText = "";
-
         int numRecipes = 4;
 
         //Loop through each recipe
@@ -100,7 +98,8 @@ public class RecipeInstrumentedTest {
                             withId(R.id.description_tv)));
 
                     //Check for a description text
-                    descriptionTextview.check(matches(not(withText(emptyText))));
+                    descriptionTextview.check(matches(
+                            not(withText(appContext.getString(R.string.empty_string)))));
 
 
                 } catch (Error e){

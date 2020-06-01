@@ -53,12 +53,12 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.11.4'
 
     // Testing-only dependencies
-    androidTestImplementation 'androidx.test:core:' + rootProject.coreVersion;
-    androidTestImplementation 'androidx.test.ext:junit:' + rootProject.extJUnitVersion;
-    androidTestImplementation 'androidx.test:runner:' + rootProject.runnerVersion;
-    androidTestImplementation 'androidx.test.espresso:espresso-core:' + rootProject.espressoVersion;
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:' + rootProject.espressoVersion;
+    androidTestImplementation 'androidx.test:core:' + rootProject.coreVersion
+    androidTestImplementation 'androidx.test.ext:junit:' + rootProject.extJUnitVersion
+    androidTestImplementation 'androidx.test:runner:' + rootProject.runnerVersion
+    androidTestImplementation 'androidx.test.espresso:espresso-core:' + rootProject.espressoVersion
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:' + rootProject.espressoVersion
     debugImplementation "androidx.fragment:fragment-testing:1.2.4"
     androidTestImplementation 'androidx.test:rules:1.2.0'
-    implementation 'androidx.test.espresso:espresso-idling-resource:' + rootProject.espressoVersion;
+    implementation 'androidx.test.espresso:espresso-idling-resource:' + rootProject.espressoVersion
 }

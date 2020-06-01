@@ -3,7 +3,6 @@ package com.example.bake;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
                 Bundle arguments = new Bundle();
                 arguments.putInt(StepDetailFragment.ARG_STEP_INDEX, step.getIndex());
                 arguments.putInt(StepDetailFragment.ARG_RECIPE_INDEX, recipeId);
-//                arguments.putInt(StepDetailFragment.ARG_STEP_INDEX, view.getTag());
                 StepDetailFragment fragment = new StepDetailFragment();
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction()

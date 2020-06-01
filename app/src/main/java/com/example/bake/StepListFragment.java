@@ -33,16 +33,11 @@ public class StepListFragment extends Fragment {
 
     private int mIndex;
 
-    private List<Recipe> mRecipes;
-
     private boolean mTwoPane;
-
-    private List<Step> mSteps;
 
     /**
      * The dummy content this fragment is presenting.
      */
-//    private DummyContent.DummyItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,17 +55,11 @@ public class StepListFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-//            mItem = Recipe.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity =  this.getActivity();
             mIndex = getArguments().getInt(ARG_ITEM_ID);
 
-//            Toolbar appBarLayout = activity.findViewById(R.id.step_list_toolbar);
 
-
-//            if (appBarLayout != null && mRecipe != null && mRecipe.getName() != null) {
-//                appBarLayout.setTitle(mRecipe.getName());
-//            }
 
 
         }
@@ -100,14 +89,6 @@ public class StepListFragment extends Fragment {
                 stepRecyclerView.setAdapter(stepAdapter);
             }
         });
-
-
-
-//        StepAdapter stepAdapter = new StepAdapter(this.getActivity(), false);
-        // Show the dummy content as text in a TextView.
-//        if (mItem != null) {
-//            ((TextView) rootView.findViewById(R.id.step_list_frag)).setText(mItem.details);
-//        }
 
         return rootView;
     }

@@ -43,24 +43,15 @@ public class StepDetailFragment extends Fragment {
      */
     public static final String ARG_RECIPE_INDEX = "recipe_index_step_detail_frag";
     public static final String ARG_STEP_INDEX = "step_index_step_detail_frag";
-    public static final String ARG_TWO_PANE = "two-pane";
 
     private int mRecipeIndex = -1;
     private int mStepIndex = -1;
-
-    private List<Recipe> mRecipes;
-    private boolean mTwoPane;
-    private List<Step> mSteps;
 
     private String TAG = StepDetailFragment.class.getSimpleName();
     private Context mContext;
 
     private SimpleExoPlayer mPlayer;
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-//    private DummyContent.DummyItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

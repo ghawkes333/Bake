@@ -26,22 +26,12 @@ public class RecipeAdapter
             Recipe item = (Recipe) view.getTag();
             setCurrentRecipe(item);
 
-//            if (mTwoPane) {
-//                Bundle arguments = new Bundle();
-//                arguments.putInt(StepListFragment.ARG_ITEM_ID, item.getIndex());
-//                StepListFragment fragment = new StepListFragment();
-//                fragment.setArguments(arguments);
-//                mParentActivity.getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.recipe_detail_container, fragment)
-//                        .commit();
-//            } else {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, StepListActivity.class);
-                intent.putExtra(StepListFragment.ARG_ITEM_ID, item.getIndex());
-                intent.putExtra(StepListFragment.ARG_TWO_PANE, mTwoPane);
+            Context context = view.getContext();
+            Intent intent = new Intent(context, StepListActivity.class);
+            intent.putExtra(StepListFragment.ARG_ITEM_ID, item.getIndex());
+            intent.putExtra(StepListFragment.ARG_TWO_PANE, mTwoPane);
 
-                context.startActivity(intent);
-//            }
+            context.startActivity(intent);
         }
     };
 
@@ -80,8 +70,8 @@ public class RecipeAdapter
 
         ViewHolder(View view) {
             super(view);
-            mIdView = (TextView) view.findViewById(R.id.id_text);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = view.findViewById(R.id.id_text);
+            mContentView = view.findViewById(R.id.content);
         }
     }
 

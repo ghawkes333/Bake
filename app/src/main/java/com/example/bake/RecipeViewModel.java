@@ -80,10 +80,6 @@ public class RecipeViewModel extends AndroidViewModel {
         mIdlingResource = resource;
     }
 
-    public static SimpleIdlingResource getIdlingResource(){
-        return mIdlingResource;
-    }
-
 
     /*
     * Found on

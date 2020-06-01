@@ -50,7 +50,7 @@ public class RecipeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
@@ -89,36 +89,8 @@ public class RecipeListActivity extends AppCompatActivity {
         });
     }
 
-//    private void setRecipes(){
-//        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-//        JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                mRecipes = JSONUtils.parseJSON(response, RecipeListActivity.this);
-//
-//                mRecipes.observe(RecipeListActivity.this, new Observer<List<Recipe>>() {
-//                    @Override
-//                    public void onChanged(List<Recipe> recipes) {
-//                        View recyclerView = findViewById(R.id.recipe_list);
-//                        assert recyclerView != null;
-//                        setupRecyclerView((RecyclerView) recyclerView, recipes);
-//                    }
-//                });
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        });
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        requestQueue.add(request);
-//    }
-
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, List<Recipe> recipes) {
         recyclerView.setAdapter(new RecipeAdapter(this, recipes, mTwoPane));
-        //TODO: adjust spancount
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
