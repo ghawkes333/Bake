@@ -39,14 +39,13 @@ public class JSONUtils {
         List<Step> stepsList = new ArrayList<>();
         for(int i = 0; i < stepsJSON.length(); i++){
             JSONObject stepJSON = stepsJSON.getJSONObject(i);
-            int id = stepJSON.getInt(RecipeValues.RESPONSE_STEPS_ID);
             String shortDescription = stepJSON.getString(RecipeValues.RESPONSE_STEPS_SHORT_DESCRIPTION);
             String description = stepJSON.getString(RecipeValues.RESPONSE_STEPS_LONG_DESCRIPTION);
             String videoURL = stepJSON.getString(RecipeValues.RESPONSE_STEPS_VIDEO_URL);
             String imageURL = stepJSON.getString(RecipeValues.RESPONSE_STEPS_IMAGE_URL);
 
 
-            Step step = new Step(id, shortDescription, description, videoURL, imageURL);
+            Step step = new Step(i, shortDescription, description, videoURL, imageURL);
             stepsList.add(step);
         }
 
