@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Bake</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_detail_step">Instructions</string>
+
+    <string name="new_line">\n</string>
+
+    <!--  JSON response unit strings  -->
+    <string name="CUP">Cups</string>
+    <string name="TBLSP">Tablespoons</string>
+    <string name="TSP">Teaspoons</string>
+    <string name="K">K</string>
+    <string name="G">Grams</string>
+    <string name="OZ">Ounces</string>
+    <string name="UNIT" />
+
+    <!--  Other JSON related strings  -->
+    <string name="of">of</string>
+    <string name="space">\u0020</string>
+    <string name="string">string</string>
+    <string name="title_recipe_list">Recipes</string>
+    <string name="title_recipe_detail">Recipe Detail</string>
+
+    <string name="widget_default_text">Hi! Try going to the Bake app and clicking on a recipe. Your ingredients will appear here!</string>
+</resources>
