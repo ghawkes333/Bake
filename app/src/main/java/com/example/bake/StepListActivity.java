@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 public class StepListActivity extends AppCompatActivity {
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,8 @@ public class StepListActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putInt(StepListFragment.ARG_ITEM_ID,
                     getIntent().getIntExtra(StepListFragment.ARG_ITEM_ID, -1));
+            arguments.putBoolean(StepListFragment.ARG_TWO_PANE,
+                    getIntent().getBooleanExtra(StepListFragment.ARG_TWO_PANE, false));
             StepListFragment fragment = new StepListFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

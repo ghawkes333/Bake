@@ -48,6 +48,9 @@ public class RecipeInstrumentedTest {
     private static final String TAG = RecipeInstrumentedTest.class.getSimpleName();
 
 
+    private boolean mTwoPane = true;
+
+
     @Before
     public void initiateIdlingResource(){
         ActivityScenario activityScenario = ActivityScenario.launch(RecipeListActivity.class);
@@ -99,11 +102,14 @@ public class RecipeInstrumentedTest {
                     //Check for a description text
                     descriptionTextview.check(matches(not(withText(emptyText))));
 
-                    //Go back to the steps fragment
-                    pressBack();
+
                 } catch (Error e){
                     Log.e(TAG,"FAILED: recipe index " + recipeListPosition + " and step index " + stepListPosition );
                     e.printStackTrace();
+                }
+
+                if(!mTwoPane){
+                    //Go back to the steps fragment
                     pressBack();
                 }
 

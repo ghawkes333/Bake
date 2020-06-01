@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LiveData;
@@ -41,6 +42,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
     public static Recipe mCurrentRecipe;
 
+    @VisibleForTesting
     private SimpleIdlingResource mIdlingResource;
 
     @Override
@@ -53,11 +55,8 @@ public class RecipeListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
 
-        if (findViewById(R.id.recipe_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
+        if (findViewById(R.id.recipe_list).getTag().equals(getString(R.string.in_two_pane))) {
+            //Running on a tablet
             mTwoPane = true;
         }
 
@@ -74,8 +73,11 @@ public class RecipeListActivity extends AppCompatActivity {
 
     private void setUpViewModel(){
         mIdlingResource = new SimpleIdlingResource();
+
         RecipeViewModel viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
-        viewModel.setIdlingResource(mIdlingResource);
+        if(mIdlingResource != null){
+            viewModel.setIdlingResource(mIdlingResource);
+        }
         viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> recipes) {

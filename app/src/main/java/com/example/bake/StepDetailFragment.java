@@ -43,6 +43,8 @@ public class StepDetailFragment extends Fragment {
      */
     public static final String ARG_RECIPE_INDEX = "recipe_index_step_detail_frag";
     public static final String ARG_STEP_INDEX = "step_index_step_detail_frag";
+    public static final String ARG_TWO_PANE = "two-pane";
+
     private int mRecipeIndex = -1;
     private int mStepIndex = -1;
 

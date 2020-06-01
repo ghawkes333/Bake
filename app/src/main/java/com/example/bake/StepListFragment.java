@@ -29,6 +29,8 @@ public class StepListFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_TWO_PANE = "two_pane_arg";
+
     private int mIndex;
 
     private List<Recipe> mRecipes;
@@ -72,6 +74,10 @@ public class StepListFragment extends Fragment {
 
 
         }
+
+        if(getArguments().containsKey(ARG_TWO_PANE)){
+            mTwoPane = getArguments().getBoolean(ARG_TWO_PANE);
+        }
     }
 
     @Override
@@ -87,8 +93,7 @@ public class StepListFragment extends Fragment {
             public void onChanged(List<Recipe> recipes) {
                 List<Step> steps = recipes.get(mIndex).getSteps();
 
-                //TODO: put in mTwoPane
-                StepAdapter stepAdapter = new StepAdapter((StepListActivity) StepListFragment.this.getActivity(), false, steps, mIndex);
+                StepAdapter stepAdapter = new StepAdapter((StepListActivity) StepListFragment.this.getActivity(), mTwoPane, steps, mIndex);
 
                 stepRecyclerView.setHasFixedSize(true);
                 stepRecyclerView.setLayoutManager(new LinearLayoutManager(StepListFragment.this.getActivity().getApplicationContext()));

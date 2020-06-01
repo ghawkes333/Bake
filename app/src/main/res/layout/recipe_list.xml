@@ -10,4 +10,5 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".RecipeListActivity"
-    tools:listitem="@layout/recipe_list_content" />
+    android:tag="@string/not_in_two_pane"
+    tools:listitem="@layout/recipe_list_content"/>
